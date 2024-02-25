@@ -1,5 +1,4 @@
 import tkinter as tk
-from tkinter import * 
 from api import RandomWords
 
 
@@ -21,7 +20,7 @@ class Gui():
     words_text.grid(column=1, row=2)
 
     words_entry = tk.Entry(width=100)
-    words_entry.grid(column=1, row=3)
+    words_entry.grid(column=1, row=3, pady=20)
     
     highscore = tk.Label(text="HIGHSCORE: ")
     highscore.grid(column=0,row=0)
