@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import END
 from api import RandomWords
 
 
@@ -32,10 +33,15 @@ class Gui(tk.Tk):
         start_button = tk.Button(text="Start Test", width=10, command=self.get_words)
         start_button.grid(column=1, row=4)
         
-        
             
     def get_words(self):
-        user_input = self.words_enter.get()
-        print(user_input)
+        self.user_input= self.words_enter.get()
+        print(self.user_input)
+        self.check_words()
 
+    def check_words(self):
+        for word in self.words.words_list:
+            if self.user_input == word:
+                print("SUCCESS")
+                self.words_enter.delete(0, END)
 
