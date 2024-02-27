@@ -37,12 +37,15 @@ class Gui(tk.Tk):
     def get_words(self):
         self.user_input = self.words_enter.get()
         self.user_input = ''.join(self.user_input)
-        self.check_user_answer()
+        self.check_words()
 
-    def check_user_answer(self):
+    def check_words(self):
+        print(self.words.all_words())
         if self.user_input == self.words.all_words():
             print("SUCCESS")
             self.delete_user_answer()
+            new_words = RandomWords()
+            self.words.words_list = new_words.words_list
         elif self.user_input != self.words.all_words():
             self.delete_user_answer()
 
