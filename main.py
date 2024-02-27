@@ -2,6 +2,7 @@ from gui import Gui
 
 gui = Gui()
 
-gui.get_words()
+while True:
+    gui.get_words()
 
-gui.window.mainloop()
+    gui.window.mainloop()

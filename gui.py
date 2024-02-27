@@ -16,8 +16,8 @@ class Gui(tk.Tk):
         words_label.grid(column=0, row=2)
         
         
-        words_text = tk.Label(text=f"{self.words.all_words()}")
-        words_text.grid(column=1, row=2)
+        self.words_text = tk.Label(text=f"{self.words.all_words(self.words.words_list)}")
+        self.words_text.grid(column=1, row=2)
 
 
         self.words_enter = tk.Entry(width=100)
@@ -40,14 +40,20 @@ class Gui(tk.Tk):
         self.check_words()
 
     def check_words(self):
-        print(self.words.all_words())
-        if self.user_input == self.words.all_words():
-            print("SUCCESS")
+        print(self.words.all_words(self.words.words_list))
+        if self.user_input == self.words.all_words(self.words.words_list):
             self.delete_user_answer()
-            new_words = RandomWords()
-            self.words.words_list = new_words.words_list
-        elif self.user_input != self.words.all_words():
+            print("SUCCESS")
+            self.generate_new_words()
+    
+        elif self.user_input != self.words.all_words(self.words.words_list):
             self.delete_user_answer()
 
     def delete_user_answer(self):
         self.words_enter.delete(0, END)
+        
+    
+    def generate_new_words(self):
+        new_words = RandomWords()
+        self.words.words_list = new_words.words_list
+        self.words_text.config(text=f"{self.words.all_words(self.words.words_list)}")
