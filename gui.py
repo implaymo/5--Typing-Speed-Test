@@ -33,6 +33,9 @@ class Gui(tk.Tk):
         start_button = tk.Button(text="Start Test", width=10, command=self.get_words)
         start_button.grid(column=1, row=4)
         
+        self.errors_label = tk.Label(text="Errors commited: ")
+        self.errors_label.grid(column=0, row=5)
+        
             
     def get_words(self):
         self.user_input = self.words_enter.get().lower().strip()
@@ -46,7 +49,8 @@ class Gui(tk.Tk):
         if self.user_input == correct_words:
             self.handles_success()
         else:
-            self.check_erros(correct_words.split(), self.user_input.split())
+            self.errors_commited = self.check_errors(correct_words.split(), self.user_input.split())
+            self.errors_label.config(text=f"Errors commited: {self.errors_commited}")
             self.handles_failure()
             
         self.generate_new_words()
@@ -69,11 +73,6 @@ class Gui(tk.Tk):
         print("Missed something")
     
     
-    def check_erros(self, list1, list2):        
-        difference1 = [value for value in list1 if value not in list2]
-        
-        difference2 = [value for value in list2 if value not in list1]
-        
-        all_differences = difference1 + difference2
-        
-        print("Different values:", all_differences)
+    def check_errors(self, game_words, user_answer):        
+        self.difference = [value for value in user_answer if value not in game_words]
+        return self.difference
