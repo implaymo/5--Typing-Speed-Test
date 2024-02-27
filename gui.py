@@ -35,16 +35,16 @@ class Gui(tk.Tk):
         
             
     def get_words(self):
-        self.user_input = self.words_enter.get()
-
+        self.user_input = self.words_enter.get().lower().strip()
         if self.user_input:
+            print(self.user_input.split())
+            print(self.words.words_list)
             self.user_input = ''.join(self.user_input)
             self.check_words()
 
 
     def check_words(self):
-        correct_words = self.words.all_words(self.words.words_list)
-        print(self.words.all_words(self.words.words_list))
+        correct_words = self.words.all_words(self.words.words_list).strip()
         if self.user_input == correct_words:
             self.handles_success()
         else:
@@ -69,3 +69,6 @@ class Gui(tk.Tk):
         self.delete_user_answer()
         print("Missed something")
     
+    
+    def check_erros(self):
+        pass
