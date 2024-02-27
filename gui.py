@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import END
 from api import RandomWords
+import time
 
 
 class Gui(tk.Tk):
@@ -36,18 +37,21 @@ class Gui(tk.Tk):
             
     def get_words(self):
         self.user_input = self.words_enter.get()
-        self.user_input = ''.join(self.user_input)
-        self.check_words()
+
+        if self.user_input:
+            self.user_input = ''.join(self.user_input)
+            self.check_words()
+
 
     def check_words(self):
+        correct_words = self.words.all_words(self.words.words_list)
         print(self.words.all_words(self.words.words_list))
-        if self.user_input == self.words.all_words(self.words.words_list):
-            self.delete_user_answer()
-            print("SUCCESS")
-            self.generate_new_words()
-    
-        elif self.user_input != self.words.all_words(self.words.words_list):
-            self.delete_user_answer()
+        if self.user_input == correct_words:
+            self.handles_success()
+        else:
+            self.handles_failure()
+            
+        self.generate_new_words()
 
     def delete_user_answer(self):
         self.words_enter.delete(0, END)
@@ -57,3 +61,12 @@ class Gui(tk.Tk):
         new_words = RandomWords()
         self.words.words_list = new_words.words_list
         self.words_text.config(text=f"{self.words.all_words(self.words.words_list)}")
+        
+    def handles_success(self):
+        self.delete_user_answer()
+        print("SUCCESS")
+    
+    def handles_failure(self):
+        self.delete_user_answer()
+        print("Missed something")
+    
