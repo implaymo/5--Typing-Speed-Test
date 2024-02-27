@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import END
 from api import RandomWords
-import time
 
 
 class Gui(tk.Tk):
