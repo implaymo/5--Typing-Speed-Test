@@ -37,17 +37,16 @@ class Gui(tk.Tk):
     def get_words(self):
         self.user_input = self.words_enter.get().lower().strip()
         if self.user_input:
-            print(self.user_input.split())
-            print(self.words.words_list)
             self.user_input = ''.join(self.user_input)
             self.check_words()
 
 
     def check_words(self):
-        correct_words = self.words.all_words(self.words.words_list).strip()
+        correct_words = self.words.all_words(self.words.words_list)
         if self.user_input == correct_words:
             self.handles_success()
         else:
+            self.check_erros(correct_words.split(), self.user_input.split())
             self.handles_failure()
             
         self.generate_new_words()
@@ -70,5 +69,11 @@ class Gui(tk.Tk):
         print("Missed something")
     
     
-    def check_erros(self):
-        pass
+    def check_erros(self, list1, list2):        
+        difference1 = [value for value in list1 if value not in list2]
+        
+        difference2 = [value for value in list2 if value not in list1]
+        
+        all_differences = difference1 + difference2
+        
+        print("Different values:", all_differences)
