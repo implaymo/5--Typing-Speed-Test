@@ -5,9 +5,9 @@ from api import RandomWords
 
 class Gui(tk.Tk):
     def __init__(self) -> None:
+        super().__init__()
         self.words = RandomWords()
-        self.window = tk.Tk()
-        self.window.geometry("700x200")
+        self.geometry("700x200")
 
         title_label = tk.Label(text="Typing Speed Test")
         title_label.grid(column=1, row=0)
@@ -35,8 +35,6 @@ class Gui(tk.Tk):
         
         self.errors_label = tk.Label(text="Errors commited: ")
         self.errors_label.grid(column=0, row=5)
-        
-        self.bind("<space>", self.get_words_user)
             
     def get_words_user(self):
         self.user_input = self.words_enter.get().lower().strip()
@@ -88,3 +86,4 @@ class Gui(tk.Tk):
     #         self.current_word_index = 0
             
     #     # NEEDS FIXING
+

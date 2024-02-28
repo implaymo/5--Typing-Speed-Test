@@ -1,1 +1,3 @@
-self.bind("<space>", self.delete_user_answer)
+gui = Gui()
+
+gui.window.mainloop()
