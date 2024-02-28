@@ -30,14 +30,15 @@ class Gui(tk.Tk):
         self.timer.grid(column=0, row=1)
         
         
-        start_button = tk.Button(text="Start Test", width=10, command=self.get_words)
-        start_button.grid(column=1, row=4)
+        self.start_button = tk.Button(text="Start Test", width=10)
+        self.start_button.grid(column=1, row=4)
         
         self.errors_label = tk.Label(text="Errors commited: ")
         self.errors_label.grid(column=0, row=5)
         
+        self.bind("<space>", self.get_words_user)
             
-    def get_words(self):
+    def get_words_user(self):
         self.user_input = self.words_enter.get().lower().strip()
         if self.user_input:
             self.user_input = ''.join(self.user_input)
@@ -57,6 +58,7 @@ class Gui(tk.Tk):
 
     def delete_user_answer(self):
         self.words_enter.delete(0, END)
+
         
     
     def generate_new_words(self):
@@ -65,14 +67,24 @@ class Gui(tk.Tk):
         self.words_text.config(text=f"{self.words.all_words(self.words.words_list)}")
         
     def handles_success(self):
-        self.delete_user_answer()
         print("SUCCESS")
+        self.delete_user_answer()
     
     def handles_failure(self):
-        self.delete_user_answer()
         print("Missed something")
+        self.delete_user_answer()
     
     
     def check_errors(self, game_words, user_answer):        
-        self.difference = [value for value in user_answer if value not in game_words]
-        return self.difference
+        self.errors = [value for value in user_answer if value not in game_words]
+        return self.errors
+    
+    # def update_words(self, game_words):
+    #     self.current_word_index += 1
+
+    #     # Check if the user reached the end of the list
+    #     if self.current_word_index == len(game_words):
+    #         self.generate_new_words()
+    #         self.current_word_index = 0
+            
+    #     # NEEDS FIXING

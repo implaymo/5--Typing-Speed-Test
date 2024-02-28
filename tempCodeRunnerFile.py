@@ -1,3 +1,1 @@
-gui.get_words()
-
-gui.window.mainloop()
+self.bind("<space>", self.delete_user_answer)
