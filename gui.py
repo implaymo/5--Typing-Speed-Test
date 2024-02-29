@@ -9,7 +9,7 @@ class Gui(tk.Tk):
         super().__init__()
         self.words = RandomWords()
         self.my_clock = Clock(60)
-        self.geometry("700x200")
+        self.geometry("1000x400")
 
         title_label = tk.Label(text="Typing Speed Test")
         title_label.grid(column=1, row=0)
@@ -28,14 +28,14 @@ class Gui(tk.Tk):
         self.highscore = tk.Label(text="HIGHSCORE: ")
         self.highscore.grid(column=0,row=0)
 
-        self.timer = tk.Label(text=f"TIMER: {self.my_clock.time_is_up}")
+        self.timer = tk.Label(text="TIMER: ")
         self.timer.grid(column=0, row=1)
         
         self.start_time_button = tk.Button(text="Start Test", width=10, command=self.get_words_user)
         self.start_time_button.grid(column=1, row=4)
         
         self.start_button = tk.Button(text="TIMER", width=10, command=self.my_clock.clock_timer)
-        self.start_button.grid(column=1, row=5)
+        self.start_button.grid(column=0, row=2)
         
         self.errors_label = tk.Label(text="Errors commited: ")
         self.errors_label.grid(column=0, row=5)
