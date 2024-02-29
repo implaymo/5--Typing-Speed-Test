@@ -1,12 +1,14 @@
 import tkinter as tk
 from tkinter import END
 from api import RandomWords
+from timer import Clock
 
 
 class Gui(tk.Tk):
     def __init__(self) -> None:
         super().__init__()
         self.words = RandomWords()
+        self.my_clock = Clock(60)
         self.geometry("700x200")
 
         title_label = tk.Label(text="Typing Speed Test")
@@ -26,12 +28,14 @@ class Gui(tk.Tk):
         self.highscore = tk.Label(text="HIGHSCORE: ")
         self.highscore.grid(column=0,row=0)
 
-        self.timer = tk.Label(text="TIMER: ")
+        self.timer = tk.Label(text=f"TIMER: {self.my_clock.time_is_up}")
         self.timer.grid(column=0, row=1)
         
+        self.start_time_button = tk.Button(text="Start Test", width=10, command=self.get_words_user)
+        self.start_time_button.grid(column=1, row=4)
         
-        self.start_button = tk.Button(text="Start Test", width=10)
-        self.start_button.grid(column=1, row=4)
+        self.start_button = tk.Button(text="TIMER", width=10, command=self.my_clock.clock_timer)
+        self.start_button.grid(column=1, row=5)
         
         self.errors_label = tk.Label(text="Errors commited: ")
         self.errors_label.grid(column=0, row=5)
@@ -76,14 +80,4 @@ class Gui(tk.Tk):
     def check_errors(self, game_words, user_answer):        
         self.errors = [value for value in user_answer if value not in game_words]
         return self.errors
-    
-    # def update_words(self, game_words):
-    #     self.current_word_index += 1
-
-    #     # Check if the user reached the end of the list
-    #     if self.current_word_index == len(game_words):
-    #         self.generate_new_words()
-    #         self.current_word_index = 0
-            
-    #     # NEEDS FIXING
 
