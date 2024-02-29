@@ -1,17 +1,24 @@
 import time 
 
 class Clock():
-    def __init__(self, durantion_seconds) -> None:
-        self.start_time = time.time()
-        self.timer_duration = durantion_seconds
+    def __init__(self, duration) -> None:
+        self.duration = duration
         
+    def start_timer(self):
+        start_time = time.time()
         
-    
-    def clock_timer(self):
-        self.end_time = time.time()
-        self.elapsed_time = self.end_time - self.start_time
-        return self.elapsed_time
+        while True:
+            current_time = time.time()
+            elapsed_time = current_time - start_time
+            remaining_time = self.duration - elapsed_time
+            
+            if remaining_time <= 0: 
+                print("Time's up!")
+                
+                
+            print(f"Time remaining: {int(remaining_time)} seconds")
+            time.sleep(1)
         
-    def time_is_up(self):
-        return self.elapsed_time >= self.timer_duration
-    
+
+            
+        
