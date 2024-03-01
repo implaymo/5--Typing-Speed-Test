@@ -28,14 +28,14 @@ class Gui(tk.Tk):
         self.highscore = tk.Label(text="HIGHSCORE: ")
         self.highscore.grid(column=0,row=0)
 
-        self.timer = tk.Label(text=f"TIMER: {self.clock.duration} ")
+        self.timer = tk.Label(text=f"TIMER: {self.clock.duration}")
         self.timer.grid(column=0, row=1)
         
-        self.start_time_button = tk.Button(text="Start Test", width=10, command=self.get_words_user)
-        self.start_time_button.grid(column=1, row=4)
+        self.start_test = tk.Button(text="Start Test", width=10, command=self.get_words_user)
+        self.start_test.grid(column=1, row=4)
         
-        self.start_button = tk.Button(text="TIMER", width=10, command=self.clock.start_timer)
-        self.start_button.grid(column=0, row=2)
+        self.start_timer_button = tk.Button(text="TIMER", width=10, command=self.start_timer)
+        self.start_timer_button.grid(column=0, row=2)
         
         self.errors_label = tk.Label(text="Errors commited: ")
         self.errors_label.grid(column=0, row=5)
@@ -80,4 +80,18 @@ class Gui(tk.Tk):
     def check_errors(self, game_words, user_answer):        
         self.errors = [value for value in user_answer if value not in game_words]
         return self.errors
-
+    
+    
+    def update_timer(self):
+        remaining_time = round(self.clock.time_remaining())
+        self.timer.config(text=f"TIMER: {remaining_time}")
+        if remaining_time > 0:
+            self.after(1000, self.update_timer)
+        else:
+            self.timer.config(text="Time's up!")
+        
+    
+    
+    def start_timer(self):
+        self.clock.start()
+        self.update_timer()
