@@ -53,7 +53,7 @@ class Gui(tk.Tk):
             self.handles_success()
         else:
             self.errors_commited = self.check_errors(correct_words.split(), self.user_input.split())
-            self.errors_label.config(text=f"Errors commited: {self.errors_commited}")
+            self.errors_label.config(text=f"Errors commited: {"/".join(self.errors_commited)}")
             self.handles_failure()
             
         self.generate_new_words()
