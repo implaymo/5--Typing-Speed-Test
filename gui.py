@@ -59,18 +59,16 @@ class Gui(tk.Tk):
         if self.user_input == correct_words:
             self.handles_success()
         else:
+            # Adds all errors to the list all_errors and shows the words without being in a list
             self.all_errors.append("/".join(self.check_errors(correct_words.split(), self.user_input.split())))
             self.handles_failure()
-            if self.time_ended is True:
-                self.errors_label.config(text=f"Errors commited: \n{"\n".join(self.all_errors)}")
 
             
         self.generate_new_words()
 
     def delete_user_answer(self, event=None):
         self.words_enter.delete(0, END)
-
-        
+     
     
     def generate_new_words(self):
         new_words = RandomWords()
@@ -96,6 +94,10 @@ class Gui(tk.Tk):
         else:
             self.start_timer()
 
+    def handles_end_game(self):
+        if self.time_ended is True:
+            self.errors_label.config(text=f"Errors commited: \n{"\n".join(self.all_errors)}")
+
     
     def update_timer(self):
         remaining_time = round(self.clock.time_remaining())
@@ -105,6 +107,7 @@ class Gui(tk.Tk):
         else:
             self.time_ended = True
             self.timer.config(text="Time's up!")
+            self.handles_end_game()
         
     
     
