@@ -31,19 +31,20 @@ class Gui(tk.Tk):
         self.timer = tk.Label(text=f"TIMER: {self.clock.duration}")
         self.timer.grid(column=0, row=1)
         
-        self.start_test = tk.Button(text="Start Test", width=10, command=self.start_timer)
+        self.start_test = tk.Button(text="Start Test", width=10)
         self.start_test.grid(column=1, row=4)
         
         self.errors_label = tk.Label(text="Errors commited: ")
         self.errors_label.grid(column=0, row=5)
 
-        self.bind("<space>", self.delete_user_answer) 
+        self.bind("<space>", self.handles_space_key) 
          
 
             
     def get_words_user(self):
         self.user_input = self.words_enter.get().lower().strip()
         if self.user_input:
+            self.start_timer()
             self.user_input = ''.join(self.user_input)
             self.check_words()
 
@@ -81,6 +82,13 @@ class Gui(tk.Tk):
         self.errors = [value for value in user_answer if value not in game_words]
         return self.errors
     
+    def handles_space_key(self, event=None):
+        self.get_words_user()
+        self.delete_user_answer()
+
+
+
+
     
     def update_timer(self):
         remaining_time = round(self.clock.time_remaining())
