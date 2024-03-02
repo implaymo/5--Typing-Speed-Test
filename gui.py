@@ -37,6 +37,9 @@ class Gui(tk.Tk):
         self.errors_label = tk.Label(text="Errors commited: ")
         self.errors_label.grid(column=0, row=5)
 
+
+        self.time_started = False
+
         self.bind("<space>", self.handles_space_key) 
          
 
@@ -44,7 +47,6 @@ class Gui(tk.Tk):
     def get_words_user(self):
         self.user_input = self.words_enter.get().lower().strip()
         if self.user_input:
-            self.start_timer()
             self.user_input = ''.join(self.user_input)
             self.check_words()
 
@@ -83,8 +85,11 @@ class Gui(tk.Tk):
         return self.errors
     
     def handles_space_key(self, event=None):
-        self.get_words_user()
-        self.delete_user_answer()
+        if self.time_started is True:
+            self.get_words_user()
+            self.delete_user_answer()
+        else:
+            self.start_timer()
 
 
 
@@ -101,5 +106,6 @@ class Gui(tk.Tk):
     
     
     def start_timer(self):
+        self.time_started = True
         self.clock.start()
         self.update_timer()
