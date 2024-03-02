@@ -94,7 +94,7 @@ class Gui(tk.Tk):
             self.get_words_user()
             self.delete_user_answer()
         else:
-            self.start_timer()
+            self.handles_start_game()
 
     def handles_end_game(self):
         if self.time_ended is True:
@@ -113,7 +113,10 @@ class Gui(tk.Tk):
         
     
     
-    def start_timer(self):
+    def handles_start_game(self):
         self.time_started = True
         self.clock.start()
         self.update_timer()
+        self.get_words_user()
+        self.delete_user_answer()
+        
