@@ -31,11 +31,8 @@ class Gui(tk.Tk):
         self.timer = tk.Label(text=f"TIMER: {self.clock.duration}")
         self.timer.grid(column=0, row=1)
         
-        self.start_test = tk.Button(text="Start Test", width=10, command=self.get_words_user)
+        self.start_test = tk.Button(text="Start Test", width=10, command=self.start_timer)
         self.start_test.grid(column=1, row=4)
-        
-        self.start_timer_button = tk.Button(text="TIMER", width=10, command=self.start_timer)
-        self.start_timer_button.grid(column=0, row=2)
         
         self.errors_label = tk.Label(text="Errors commited: ")
         self.errors_label.grid(column=0, row=5)
