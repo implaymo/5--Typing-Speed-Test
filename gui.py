@@ -22,7 +22,7 @@ class Gui(tk.Tk):
         self.words_text.grid(column=1, row=2)
 
 
-        self.words_enter = tk.Entry(width=100)
+        self.words_enter = tk.Entry(width=100, justify='center')
         self.words_enter.grid(column=1, row=3, pady=20)
         
         self.highscore = tk.Label(text="HIGHSCORE: ")
