@@ -98,7 +98,8 @@ class Gui(tk.Tk):
 
     def handles_end_game(self):
         if self.time_ended is True:
-            self.errors_label.config(text=f"Errors commited: \n{"\n".join(self.all_errors)}")
+            self.errors_label.config(text=f"Errors commited: \n{'\n'.join(self.all_errors)}")
+            self.disable_entry_widget()
 
     
     def update_timer(self):
@@ -120,3 +121,5 @@ class Gui(tk.Tk):
         self.get_words_user()
         self.delete_user_answer()
         
+    def disable_entry_widget(self):
+        self.words_enter.config(state=tk.DISABLED)
