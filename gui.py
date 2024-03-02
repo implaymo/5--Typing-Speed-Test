@@ -8,7 +8,7 @@ class Gui(tk.Tk):
     def __init__(self) -> None:
         super().__init__()
         self.words = RandomWords()
-        self.clock = Clock(60)
+        self.clock = Clock(10)
         self.geometry("1000x400")
 
         title_label = tk.Label(text="Typing Speed Test")
@@ -39,6 +39,9 @@ class Gui(tk.Tk):
 
 
         self.time_started = False
+        self.time_ended = False
+
+        self.all_errors = []
 
         self.bind("<space>", self.handles_space_key) 
          
@@ -56,9 +59,11 @@ class Gui(tk.Tk):
         if self.user_input == correct_words:
             self.handles_success()
         else:
-            self.errors_commited = self.check_errors(correct_words.split(), self.user_input.split())
-            self.errors_label.config(text=f"Errors commited: {"/".join(self.errors_commited)}")
+            self.all_errors.append("/".join(self.check_errors(correct_words.split(), self.user_input.split())))
             self.handles_failure()
+            if self.time_ended is True:
+                self.errors_label.config(text=f"Errors commited: \n{"\n".join(self.all_errors)}")
+
             
         self.generate_new_words()
 
@@ -81,8 +86,8 @@ class Gui(tk.Tk):
     
     
     def check_errors(self, game_words, user_answer):        
-        self.errors = [value for value in user_answer if value not in game_words]
-        return self.errors
+        errors = [value for value in user_answer if value not in game_words]
+        return errors
     
     def handles_space_key(self, event=None):
         if self.time_started is True:
@@ -91,9 +96,6 @@ class Gui(tk.Tk):
         else:
             self.start_timer()
 
-
-
-
     
     def update_timer(self):
         remaining_time = round(self.clock.time_remaining())
@@ -101,6 +103,7 @@ class Gui(tk.Tk):
         if remaining_time > 0:
             self.after(1000, self.update_timer)
         else:
+            self.time_ended = True
             self.timer.config(text="Time's up!")
         
     
