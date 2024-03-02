@@ -24,6 +24,8 @@ class Gui(tk.Tk):
 
         self.words_enter = tk.Entry(width=100, justify='center')
         self.words_enter.grid(column=1, row=3, pady=20)
+        self.words_enter.focus_set()
+
         
         self.highscore = tk.Label(text="HIGHSCORE: ")
         self.highscore.grid(column=0,row=0)
