@@ -1,11 +1,17 @@
 import requests
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 class RandomWords():
     def __init__(self) -> None:
-        self.response = requests.get("https://random-word-api.herokuapp.com/word?lang=en&number=1&length=4")
+        api_key = os.getenv("api_key")
+        self.response = requests.get("https://api.api-ninjas.com/v1/loremipsum?paragraphs=1", headers={'X-Api-Key': api_key})
         self.response.raise_for_status()
-        self.words_list = self.response.json()  # Use json() to parse the response as a JSON list
+        data = self.response.json()
+        self.words_list = data.get("text", "").split()
 
     def all_words(self, words_list):
         return " ".join(words_list)

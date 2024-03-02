@@ -54,28 +54,23 @@ class Gui(tk.Tk):
         if self.user_input:
             self.user_input = ''.join(self.user_input)
             self.check_words()
-
+            self.words.words_list.pop(0)
 
     def check_words(self):
-        correct_words = self.words.all_words(self.words.words_list)
-        if self.user_input == correct_words:
-            self.handles_success()
+        correct_words = self.words.all_words(self.words.words_list).split()
+        user_words = self.user_input
+        if user_words == correct_words[0].lower():
+            self.handles_success() 
         else:
             # Adds all errors to the list all_errors and shows the words without being in a list
-            self.all_errors.append("/".join(self.check_errors(correct_words.split(), self.user_input.split())))
+            self.all_errors.append("".join(self.check_errors(correct_words, user_words)))
+            print(self.all_errors)
             self.handles_failure()
-
             
-        self.generate_new_words()
-
     def delete_user_answer(self, event=None):
         self.words_enter.delete(0, END)
      
-    
-    def generate_new_words(self):
-        new_words = RandomWords()
-        self.words.words_list = new_words.words_list
-        self.words_text.config(text=f"{self.words.all_words(self.words.words_list)}")
+
         
     def handles_success(self):
         print("SUCCESS")
