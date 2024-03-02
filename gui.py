@@ -36,6 +36,10 @@ class Gui(tk.Tk):
         
         self.errors_label = tk.Label(text="Errors commited: ")
         self.errors_label.grid(column=0, row=5)
+
+        self.bind("<space>", self.delete_user_answer) 
+         
+
             
     def get_words_user(self):
         self.user_input = self.words_enter.get().lower().strip()
@@ -55,7 +59,7 @@ class Gui(tk.Tk):
             
         self.generate_new_words()
 
-    def delete_user_answer(self):
+    def delete_user_answer(self, event=None):
         self.words_enter.delete(0, END)
 
         
@@ -67,11 +71,10 @@ class Gui(tk.Tk):
         
     def handles_success(self):
         print("SUCCESS")
-        self.delete_user_answer()
+        
     
     def handles_failure(self):
         print("Missed something")
-        self.delete_user_answer()
     
     
     def check_errors(self, game_words, user_answer):        
