@@ -12,8 +12,10 @@ class RandomWords():
         self.response.raise_for_status()
         data = self.response.json()
         self.words_list = data.get("text", "").split()
-
+        
     def all_words(self, words_list):
-        return " ".join(words_list)
+        self.words_paired_in_ten = [words_list[i:i+10] for i in range(0, len(words_list), 10)]
+        return "\n".join([" ".join(words) for words in self.words_paired_in_ten])
+
    
  
