@@ -52,7 +52,6 @@ class Gui(tk.Tk):
     def get_words_user(self):
         self.user_input = self.words_enter.get().lower().strip()
         if self.user_input:
-            self.user_input = ''.join(self.user_input)
             self.check_words()
             self.words.words_list.pop(0)
 
@@ -123,7 +122,7 @@ class Gui(tk.Tk):
 
     
     def correct_answer(self):
-        return self.words_text.config(fg="blue")
+        return self.words_text.config(fg="green")
         
     def incorrect_answer(self):
         return self.words_text.config(fg="red")
