@@ -2,13 +2,16 @@ import tkinter as tk
 from tkinter import END
 from api import RandomWords
 from timer import Clock
+from type_speed import Speed
 
 
 class Gui(tk.Tk):
     def __init__(self) -> None:
         super().__init__()
         self.words = RandomWords()
-        self.clock = Clock(60)
+        self.clock = Clock()
+        self.speed = Speed()
+        
         self.geometry("1000x400")
 
         title_label = tk.Label(text="Typing Speed Test")
@@ -27,7 +30,7 @@ class Gui(tk.Tk):
         self.words_enter.focus_set()
 
         
-        self.highscore = tk.Label(text="HIGHSCORE: ")
+        self.highscore = tk.Label(text="SCORE: ")
         self.highscore.grid(column=0,row=0)
 
         self.timer = tk.Label(text=f"TIMER: {self.clock.duration}")
@@ -44,6 +47,7 @@ class Gui(tk.Tk):
         self.time_ended = False
 
         self.all_errors = []
+        self.total_words = 0 
 
         self.bind("<space>", self.handles_space_key) 
          
@@ -58,7 +62,9 @@ class Gui(tk.Tk):
     def check_words(self):
         correct_words = self.words.all_words(self.words.words_list).split()
         user_word = self.user_input
-        if user_word == correct_words[0].lower():
+        word_checked = correct_words[0].lower()
+        
+        if user_word == word_checked:
             self.handles_success()
             self.correct_answer()
         else:
@@ -74,10 +80,12 @@ class Gui(tk.Tk):
 
         
     def handles_success(self):
+        self.total_words += 1
         print("SUCCESS")
         
     
     def handles_failure(self):
+        self.total_words -= 1
         print("Missed something")
     
     
@@ -91,12 +99,6 @@ class Gui(tk.Tk):
             self.delete_user_answer()
         else:
             self.handles_start_game()
-
-    def handles_end_game(self):
-        if self.time_ended is True:
-            self.errors_label.config(text=f"Errors commited: \n{'\n'.join(self.all_errors)}")
-            self.disable_entry_widget()
-
     
     def update_timer(self):
         remaining_time = round(self.clock.time_remaining())
@@ -109,7 +111,6 @@ class Gui(tk.Tk):
             self.handles_end_game()
         
     
-    
     def handles_start_game(self):
         self.time_started = True
         self.clock.start()
@@ -117,12 +118,17 @@ class Gui(tk.Tk):
         self.get_words_user()
         self.delete_user_answer()
         
+    def handles_end_game(self):
+        if self.time_ended is True:
+            self.errors_label.config(text=f"Errors commited: \n{'\n'.join(self.all_errors)}")
+            self.disable_entry_widget()
+            self.highscore.config(text=f"SCORE: {self.speed.typing_speed_result(self.total_words, self.clock.start_time)}")
+        
     def disable_entry_widget(self):
         self.words_enter.config(state=tk.DISABLED)
 
     
     def correct_answer(self):
-        return self.words_text.config(fg="green")
-        
+        pass
     def incorrect_answer(self):
-        return self.words_text.config(fg="red")
+        pass
