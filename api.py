@@ -17,7 +17,7 @@ class RandomWords():
     def all_words(self, words_list):
         # Gets all words in a list of lists of 10 elements
         self.words_paired_in_ten = [words_list[i:i+10] for i in range(0, len(words_list), 10)]
-        return "\n".join([" ".join(self.remove_punctuation(words)) for words in self.words_paired_in_ten])
+        return "\n".join([" ".join(self.remove_punctuation(words)) for words in self.words_paired_in_ten]).lower()
 
    
     def remove_punctuation(self, words):

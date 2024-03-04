@@ -58,14 +58,16 @@ class Gui(tk.Tk):
 
     def check_words(self):
         correct_words = self.words.all_words(self.words.words_list).split()
-        user_words = self.user_input
-        if user_words == correct_words[0].lower():
-            self.handles_success() 
+        user_word = self.user_input
+        if user_word == correct_words[0].lower():
+            self.handles_success()
+            self.correct_answer()
         else:
             # Adds all errors to the list all_errors and shows the words without being in a list
-            self.all_errors.append("".join(self.check_errors(correct_words, user_words)))
+            self.all_errors.append("".join(self.check_errors(correct_words, user_word)))
             print(self.all_errors)
             self.handles_failure()
+            self.incorrect_answer()
             
     def delete_user_answer(self, event=None):
         self.words_enter.delete(0, END)
@@ -118,3 +120,10 @@ class Gui(tk.Tk):
         
     def disable_entry_widget(self):
         self.words_enter.config(state=tk.DISABLED)
+
+    
+    def correct_answer(self):
+        return self.words_text.config(fg="blue")
+        
+    def incorrect_answer(self):
+        return self.words_text.config(fg="red")
