@@ -8,7 +8,7 @@ class Gui(tk.Tk):
     def __init__(self) -> None:
         super().__init__()
         self.words = RandomWords()
-        self.clock = Clock(10)
+        self.clock = Clock(60)
         self.geometry("1000x400")
 
         title_label = tk.Label(text="Typing Speed Test")
