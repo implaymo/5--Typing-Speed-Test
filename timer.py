@@ -1,7 +1,7 @@
 import time 
 
 class Clock():
-    def __init__(self, duration=60) -> None:
+    def __init__(self, duration=10) -> None:
         self.duration = duration
         self.start_time = None
         

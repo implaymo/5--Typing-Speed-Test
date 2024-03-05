@@ -12,7 +12,7 @@ class Gui(tk.Tk):
         self.clock = Clock()
         self.speed = Speed()
         
-        self.geometry("1000x400")
+        self.geometry("1000x600")
 
         title_label = tk.Label(text="Typing Speed Test")
         title_label.grid(column=1, row=0)
@@ -33,7 +33,8 @@ class Gui(tk.Tk):
         self.score = tk.Label(text="SCORE: ")
         self.score.grid(column=0,row=1)
         
-        self.highscore = tk.Label(text="HIGHSCORE:")
+        
+        self.highscore = tk.Label(text=f"HIGHSCORE: {self.speed.typing_high_score()}")
         self.highscore.grid(column=0, row=0)
         
         
@@ -119,6 +120,7 @@ class Gui(tk.Tk):
         self.time_started = True
         self.clock.start()
         self.update_timer()
+        self.speed.typing_high_score()
         self.get_words_user()
         self.delete_user_answer()
         
@@ -127,6 +129,7 @@ class Gui(tk.Tk):
             self.errors_label.config(text=f"Errors commited: \n{'\n'.join(self.all_errors)}")
             self.disable_entry_widget()
             self.score.config(text=f"SCORE: {self.speed.typing_speed_result(self.total_words, self.clock.start_time)}")
+            self.highscore.config(text=f"HIGHSCORE: {self.speed.typing_high_score()}")
         
     def disable_entry_widget(self):
         self.words_enter.config(state=tk.DISABLED)
