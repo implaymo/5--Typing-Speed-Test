@@ -30,11 +30,15 @@ class Gui(tk.Tk):
         self.words_enter.focus_set()
 
         
-        self.highscore = tk.Label(text="SCORE: ")
-        self.highscore.grid(column=0,row=0)
-
+        self.score = tk.Label(text="SCORE: ")
+        self.score.grid(column=0,row=1)
+        
+        self.highscore = tk.Label(text="HIGHSCORE:")
+        self.highscore.grid(column=0, row=0)
+        
+        
         self.timer = tk.Label(text=f"TIMER: {self.clock.duration}")
-        self.timer.grid(column=0, row=1)
+        self.timer.grid(column=0, row=2)
         
         self.start_test = tk.Button(text="Start Test", width=10)
         self.start_test.grid(column=1, row=4)
@@ -122,7 +126,7 @@ class Gui(tk.Tk):
         if self.time_ended is True:
             self.errors_label.config(text=f"Errors commited: \n{'\n'.join(self.all_errors)}")
             self.disable_entry_widget()
-            self.highscore.config(text=f"SCORE: {self.speed.typing_speed_result(self.total_words, self.clock.start_time)}")
+            self.score.config(text=f"SCORE: {self.speed.typing_speed_result(self.total_words, self.clock.start_time)}")
         
     def disable_entry_widget(self):
         self.words_enter.config(state=tk.DISABLED)
