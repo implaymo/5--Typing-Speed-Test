@@ -38,4 +38,4 @@ class Speed():
                     high_score = float(content)
                     return round(high_score, 2)
         else:   
-            return high_score
+            return round(high_score, 2)

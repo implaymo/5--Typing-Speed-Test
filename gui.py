@@ -21,7 +21,7 @@ class Gui(tk.Tk):
         words_label.grid(column=0, row=2)
         
         
-        self.words_text = tk.Label(text=f"{self.words.all_words(self.words.words_list)}")
+        self.words_text = tk.Label(text=f"{self.words.all_words(self.words.words_list, word_index=0)}")
         self.words_text.grid(column=1, row=2)
 
 
@@ -53,6 +53,7 @@ class Gui(tk.Tk):
 
         self.all_errors = []
         self.total_words = 0 
+        self.count_errors = 0
 
         self.bind("<space>", self.handles_space_key) 
          
@@ -65,19 +66,24 @@ class Gui(tk.Tk):
             self.words.words_list.pop(0)
 
     def check_words(self):
-        correct_words = self.words.all_words(self.words.words_list).split()
-        user_word = self.user_input
-        word_checked = correct_words[0].lower()
+        word_index = 0
+        game_words = self.words.all_words(self.words.words_list, word_index=0).split()
+        user_answer = self.user_input
+        word_checked = game_words[word_index].lower()
         
-        if user_word == word_checked:
+        if word_checked is None:
+            self.words = RandomWords()
+        
+        if user_answer == word_checked:
             self.handles_success()
-            self.correct_answer()
+            word_index += 1
+            self.update_word(word_index=word_index)
         else:
             # Adds all errors to the list all_errors and shows the words without being in a list
-            self.all_errors.append("".join(self.check_errors(correct_words, user_word)))
-            print(self.all_errors)
+            self.all_errors.append("".join(self.check_errors(game_words, user_answer)))
             self.handles_failure()
-            self.incorrect_answer()
+            word_index += 1
+            self.update_word(word_index=word_index)
             
     def delete_user_answer(self, event=None):
         self.words_enter.delete(0, END)
@@ -91,6 +97,7 @@ class Gui(tk.Tk):
     
     def handles_failure(self):
         self.total_words -= 1
+        self.count_errors += 1
         print("Missed something")
     
     
@@ -126,7 +133,7 @@ class Gui(tk.Tk):
         
     def handles_end_game(self):
         if self.time_ended is True:
-            self.errors_label.config(text=f"Errors commited: \n{'\n'.join(self.all_errors)}")
+            self.errors_label.config(text=f"Errors commited: {self.count_errors}\n{'\n'.join(self.all_errors)}")
             self.disable_entry_widget()
             self.score.config(text=f"SCORE: {self.speed.typing_speed_result(self.total_words, self.clock.start_time)}")
             self.highscore.config(text=f"HIGHSCORE: {self.speed.typing_high_score()}")
@@ -135,7 +142,5 @@ class Gui(tk.Tk):
         self.words_enter.config(state=tk.DISABLED)
 
     
-    def correct_answer(self):
-        pass
-    def incorrect_answer(self):
-        pass
+    def update_word(self, word_index):
+        return self.words_text.config(text=f"{self.words.all_words(self.words.words_list, word_index=word_index)}")
