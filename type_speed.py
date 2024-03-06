@@ -20,6 +20,7 @@ class Speed():
     
     def typing_high_score(self):
         """ Stores highest score ever made"""
+        self.new_highscore = False
         try:
             with open('highscores_storage.txt', 'r') as file:
                 content = file.read()
@@ -28,6 +29,7 @@ class Speed():
                     high_score = self.current_score
                     with open('highscores_storage.txt', 'w') as write_file:
                         write_file.write(str(round(high_score, 2)))
+                        self.new_highscore = True
                 
         except FileNotFoundError:
                 with open('highscores_storage.txt', 'w') as file:

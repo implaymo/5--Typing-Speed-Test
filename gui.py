@@ -13,15 +13,16 @@ class Gui(tk.Tk):
         self.speed = Speed()
         
         self.geometry("1000x600")
+        self.custom_font = ("Helvetica", 16)
 
-        title_label = tk.Label(text="Typing Speed Test")
+        title_label = tk.Label(text="Typing Speed Test", font=self.custom_font)
         title_label.grid(column=1, row=0)
 
-        words_label = tk.Label(text="Words: ")
+        words_label = tk.Label(text="Words: ", font=self.custom_font)
         words_label.grid(column=0, row=2)
         
         
-        self.words_text = tk.Label(text=f"{self.words.all_words(self.words.words_list, word_index=0)}")
+        self.words_text = tk.Label(text=f"{self.words.all_words(self.words.words_list, word_index=0)}", font=self.custom_font)
         self.words_text.grid(column=1, row=2)
 
 
@@ -30,21 +31,21 @@ class Gui(tk.Tk):
         self.words_enter.focus_set()
 
         
-        self.score = tk.Label(text="SCORE: ")
+        self.score = tk.Label(text="SCORE: 0", font=self.custom_font)
         self.score.grid(column=0,row=1)
         
         
-        self.highscore = tk.Label(text=f"HIGHSCORE: {self.speed.typing_high_score()}")
+        self.highscore = tk.Label(text=f"HIGHSCORE: {self.speed.typing_high_score()}", font=self.custom_font)
         self.highscore.grid(column=0, row=0)
         
         
-        self.timer = tk.Label(text=f"TIMER: {self.clock.duration}")
+        self.timer = tk.Label(text=f"TIMER: {self.clock.duration}", font=self.custom_font)
         self.timer.grid(column=0, row=2)
         
-        self.start_test = tk.Button(text="Start Test", width=10)
+        self.start_test = tk.Button(text="Restart", width=10, command=self.restart_game)
         self.start_test.grid(column=1, row=4)
         
-        self.errors_label = tk.Label(text="Errors commited: ")
+        self.errors_label = tk.Label(text="Errors commited: ", font=self.custom_font)
         self.errors_label.grid(column=0, row=5)
 
 
@@ -114,12 +115,12 @@ class Gui(tk.Tk):
     
     def update_timer(self):
         remaining_time = round(self.clock.time_remaining())
-        self.timer.config(text=f"TIMER: {remaining_time}")
+        self.timer.config(text=f"TIMER: {remaining_time}", font=self.custom_font)
         if remaining_time > 0:
             self.after(1000, self.update_timer)
         else:
             self.time_ended = True
-            self.timer.config(text="Time's up!")
+            self.timer.config(text="Time's up!", font=self.custom_font)
             self.handles_end_game()
         
     
@@ -133,14 +134,23 @@ class Gui(tk.Tk):
         
     def handles_end_game(self):
         if self.time_ended is True:
-            self.errors_label.config(text=f"Errors commited: {self.count_errors}\n{'\n'.join(self.all_errors)}")
+            self.errors_label.config(text=f"Errors commited: {self.count_errors}\n{'\n'.join(self.all_errors)}", font=self.custom_font)
             self.disable_entry_widget()
-            self.score.config(text=f"SCORE: {self.speed.typing_speed_result(self.total_words, self.clock.start_time)}")
-            self.highscore.config(text=f"HIGHSCORE: {self.speed.typing_high_score()}")
+            self.score.config(text=f"SCORE: {self.speed.typing_speed_result(self.total_words, self.clock.start_time)}", font=self.custom_font)
+            if self.speed.new_highscore is True:
+                self.highscore.config(text=f"NEW HIGHSCORE {self.speed.typing_high_score()} 🥳", font=self.custom_font)
         
     def disable_entry_widget(self):
         self.words_enter.config(state=tk.DISABLED)
+    
+    def enable_entry_widget(self):
+        self.words_enter.config(state=tk.NORMAL)
+        
 
     
     def update_word(self, word_index):
         return self.words_text.config(text=f"{self.words.all_words(self.words.words_list, word_index=word_index)}")
+    
+    def restart_game(self):
+        self.enable_entry_widget()
+        return self.handles_start_game()
