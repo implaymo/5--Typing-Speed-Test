@@ -81,7 +81,8 @@ class Gui(tk.Tk):
             self.update_word(word_index=word_index)
         else:
             # Adds all errors to the list all_errors and shows the words without being in a list
-            self.all_errors.append("".join(self.check_errors(game_words, user_answer)))
+            errors = (word_checked, self.check_errors(game_words, user_answer))
+            self.all_errors.append(errors)
             self.handles_failure()
             word_index += 1
             self.update_word(word_index=word_index)
@@ -96,14 +97,15 @@ class Gui(tk.Tk):
         
     
     def handles_failure(self):
-        self.total_words -= 1
+        if self.total_words > 0:
+            self.total_words -= 1
         self.count_errors += 1
         print("Missed something")
     
     
     def check_errors(self, game_words, user_answer):        
         errors = [value for value in user_answer if value not in game_words]
-        return errors
+        return "".join(errors)
     
     def handles_space_key(self, event=None):
         if self.time_started is True:
@@ -133,7 +135,11 @@ class Gui(tk.Tk):
         
     def handles_end_game(self):
         if self.time_ended is True:
-            self.errors_label.config(text=f"Errors commited: {self.count_errors}\n{'\n'.join(self.all_errors)}", font=self.custom_font)
+            error_text = f"Errors committed: {self.count_errors}\n"
+            for error_tuple in self.all_errors:
+                error_text += f"'{''.join(error_tuple[1])}' instead of '{''.join(error_tuple[0])}'\n"
+            self.errors_label.config(text=error_text, font=self.custom_font)
+            
             self.disable_entry_widget()
             self.score.config(text=f"SCORE: {self.speed.typing_speed_result(self.total_words, self.clock.start_time)}", font=self.custom_font)
             if self.speed.new_highscore is True:
