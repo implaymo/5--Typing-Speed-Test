@@ -93,6 +93,7 @@ class Gui(tk.Tk):
         
     def handles_success(self):
         self.total_words += 1
+        self.words_enter.config(bg="green")
         print("SUCCESS")
         
     
@@ -100,6 +101,7 @@ class Gui(tk.Tk):
         if self.total_words > 0:
             self.total_words -= 1
         self.count_errors += 1
+        self.words_enter.config(bg="red")
         print("Missed something")
     
     
@@ -168,4 +170,5 @@ class Gui(tk.Tk):
         self.highscore.config(text=f"HIGHSCORE {self.speed.typing_high_score()}")
         self.errors_label.config(text="Errors commited: ")
         self.timer.config(text=f"TIMER: {self.clock.duration}")
+        self.words_enter.config(bg="white")
         
