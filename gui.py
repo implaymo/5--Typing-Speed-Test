@@ -85,11 +85,10 @@ class Gui(tk.Tk):
             self.handles_failure()
             word_index += 1
             self.update_word(word_index=word_index)
+   
             
     def delete_user_answer(self, event=None):
         self.words_enter.delete(0, END)
-     
-
         
     def handles_success(self):
         self.total_words += 1
@@ -147,10 +146,20 @@ class Gui(tk.Tk):
         self.words_enter.config(state=tk.NORMAL)
         
 
-    
     def update_word(self, word_index):
         return self.words_text.config(text=f"{self.words.all_words(self.words.words_list, word_index=word_index)}")
     
     def restart_game(self):
         self.enable_entry_widget()
-        return self.handles_start_game()
+        self.words = RandomWords()
+        self.update_word(word_index=0)
+        self.reset_labels()
+        self.time_started = False
+        self.words_enter.delete(0, tk.END)
+        
+    def reset_labels(self):
+        self.score.config(text="SCORE: 0")
+        self.highscore.config(text=f"HIGHSCORE {self.speed.typing_high_score()}")
+        self.errors_label.config(text="Errors commited: ")
+        self.timer.config(text=f"TIMER: {self.clock.duration}")
+        
